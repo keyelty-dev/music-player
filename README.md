@@ -1,9 +1,20 @@
 <ul>
   <li>
-    <a href="https://keyelty-dev.github.io/music-player/"> Online demo</a>
+    <a href="https://keyelty-dev.github.io/music-player/">Online demo</a>
   </li>
 
 
+
+
+
+<br/>
+<br/>
+<br/>
+
+
+
+![p](https://github.com/keyelty-dev/music-player/blob/main/1.png?raw=true)
+![p](https://github.com/keyelty-dev/music-player/blob/main/2.png?raw=true)
 
 
 # Music Streaming Web Application
@@ -42,13 +53,7 @@ A simple music streaming web application built using HTML, CSS, and JavaScript. 
 - `img/`: Directory for song and artist images.
 - `musics/`: Directory for audio files.
 
-## Troubleshooting
-- **Images or audio not loading**: Check file paths in the code (e.g., use `./img/filename.jpg`) and ensure files are in the correct directories. Use browser developer tools (F12) to debug 404 errors.
-- **Responsive issues**: Test on different screen sizes and adjust CSS as needed.
-- **Playback issues**: Ensure audio files are in a supported format (e.g., `.mp3`) and the local server is running.
 
-## Contributing
-Feel free to fork this repository, make improvements, and submit pull requests. Suggestions for new features or bug fixes are welcome!
 
 ## License
 This project is open-source and available under the MIT License.
