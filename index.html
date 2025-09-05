@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="src/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+
+            background-color: black;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* ظاهر پیش‌فرض مرورگر رو حذف کن */
+        .slider,
+        .slider2 {
+            -webkit-appearance: none;
+            /* برای کروم/سافاری */
+            appearance: none;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.368);
+            /* رنگ خط */
+            border-radius: 5px;
+            outline: none;
+        }
+
+
+        /* دکمه (thumb) در کروم/سافاری */
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            /* رنگ دکمه */
+            cursor: pointer;
+            margin-top: 0px;
+
+            /* برای وسط‌چین شدن روی خط */
+        }
+
+        .slider2::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            /* رنگ دکمه */
+            cursor: pointer;
+            margin-top: 0px;
+
+            /* برای وسط‌چین شدن روی خط */
+        }
+
+
+
+        .box,
+        .box2 {
+            position: relative;
+            left: 0;
+            transition: left 0.4s;
+
+
+
+        }
+
+
+        .NewDiv {
+            width: 200px;
+            height: 120px;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
+            background-color: #282828;
+            border-radius: 8px;
+            position: absolute;
+            top: 40px;
+            right: -8px;
+            z-index: 1;
+
+        }
+
+
+
+        #musicpart {
+            display: flex;
+            flex-wrap: nowrap;
+            width: 100%;
+            height: 300px;
+            position: relative;
+
+
+
+
+
+            .musics-style:hover {
+                background-color: rgba(128, 128, 128, 0.288);
+
+            }
+
+
+            .musics-style {
+                flex: 0 0 200px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                cursor: pointer;
+                height: 90%;
+                border-radius: 8px;
+                margin: 10px;
+                position: relative;
+
+
+
+
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 8px;
+                    object-fit: cover;
+                    padding: 8px;
+                    border-radius: 15%;
+
+
+
+                }
+
+
+
+                figcaption {
+                    width: 100%;
+                    text-align: left;
+                    padding: 10px;
+                    color: white;
+
+                    div:first-child {
+                        font-weight: bold;
+                        font-size: 14px;
+                        color: white;
+                    }
+
+                    div:last-child {
+                        font-size: 12px;
+                        color: #a7a7a7;
+                    }
+                }
+            }
+        }
+
+        .play-btn {
+            position: absolute;
+            bottom: 70px;
+            right: 20px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+
+        .musics-style:hover .play-btn {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            z-index: 99;
+        }
+
+
+        #artistpart {
+            display: flex;
+            flex-wrap: nowrap;
+            width: 100%;
+            height: 300px;
+
+
+
+            .artists-style:hover {
+                background-color: rgba(128, 128, 128, 0.288);
+            }
+
+
+            .artists-style {
+                flex: 0 0 200px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                cursor: pointer;
+                height: 90%;
+                border-radius: 8px;
+                margin: 10px;
+
+
+
+
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    padding: 8px;
+                    border-radius: 100%;
+
+
+
+                }
+
+                figcaption {
+                    width: 100%;
+                    text-align: left;
+                    padding: 10px;
+
+                    div:first-child {
+                        font-weight: bold;
+                        font-size: 14px;
+                        color: white;
+                    }
+
+                    div:last-child {
+                        font-size: 12px;
+                        color: #a7a7a7;
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="w-full h-[65px] bg-black flex justify-between items-center px-4">
+        <!-- start of the left side of header -->
+        <div
+            class="w-1/2 h-full md:w-1/3 lg:w-1/2  flex items-center *:flex *:items-center *:justify-center **:rounded-full  ">
+            <figure class="w-[50px] h-[50px] bg-[#1f1f1f] !m-5">
+                <svg class="size-[32px]" width="40" height="40" viewBox="0 0 40 40" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M20 0C8.96057 0 0 8.96057 0 20C0 31.0633 8.96057 40 20 40C31.0633 40 40 31.0394 40 20C40 8.96057 31.0633 0 20 0ZM29.1517 28.865C28.8172 29.4624 28.0526 29.6296 27.4791 29.2712C22.7479 26.4038 16.8459 25.7587 9.86858 27.3596C9.19952 27.4791 8.53047 27.0729 8.3871 26.4038C8.33931 25.7348 8.74552 25.0657 9.34289 24.9223C16.9892 23.178 23.5842 23.9188 28.8411 27.1446C29.4624 27.503 29.6535 28.2676 29.2712 28.865H29.1517ZM31.6607 23.417C31.1828 24.1338 30.227 24.3728 29.5102 23.9427C24.1338 20.5974 15.9379 19.6416 9.58184 21.601C8.8172 21.8399 7.9092 21.362 7.67025 20.5735C7.4313 19.7849 7.9092 18.9008 8.76941 18.6619C16.0335 16.5114 25.0657 17.5866 31.2306 21.2903C31.9474 21.7682 32.1864 22.724 31.7085 23.4409L31.6607 23.417ZM31.8996 17.73C25.448 13.9068 14.7909 13.5484 8.62605 15.4122C7.67025 15.7228 6.66667 15.1732 6.35603 14.1697C6.0454 13.2139 6.59498 12.1386 7.59857 11.828C14.6714 9.67742 26.4277 10.1075 33.8351 14.5042C34.7192 15.0299 35.0299 16.1768 34.4803 17.0609C34.0024 17.9689 32.8076 18.2557 31.9474 17.73H31.8996Z"
+                        fill="white" />
+                </svg>
+
+            </figure>
+            <figure class=" w-[50px] h-[50px] bg-[#1f1f1f] !m-2 hover:scale-105 hover:cursor-pointer ">
+                <svg class="size-[25px]" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M29 29C29 29.5523 28.5523 30 28 30H20.2778C19.7255 30 19.2778 29.5523 19.2778 29V21.0526C19.2778 20.5003 18.8301 20.0526 18.2778 20.0526H14.7222C14.1699 20.0526 13.7222 20.5003 13.7222 21.0526V29C13.7222 29.5523 13.2745 30 12.7222 30H5C4.44772 30 4 29.5523 4 29V9.89769C4 9.54272 4.18817 9.21436 4.49443 9.0349L15.9962 2.29524C16.3075 2.11283 16.6929 2.11225 17.0047 2.29373L28.503 8.98543C28.8107 9.16451 29 9.49369 29 9.84972V29Z"
+                        fill="white" />
+                </svg>
+
+            </figure>
+            <figure
+                class=" w-[50px] h-[50px] bg-[#1f1f1f] lg:w-[310px] lg:h-[50px] lg:justify-start xl:w-[490px] xl:h-[50pxpx]">
+                <svg class="size-[25px] lg:!m-3" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M23.7747 22.3561L29.5924 28.4934C30.1511 29.0828 30.1332 30.0268 29.5524 30.5933C28.9808 31.1511 28.078 31.1329 27.5282 30.5526L21.7061 24.4083C19.7272 25.93 17.4956 26.7673 15.0114 26.9203C13.3514 27.0226 11.7438 26.792 10.1886 26.2288C8.63335 25.6655 7.2766 24.8625 6.11833 23.8199C4.96006 22.7772 4.01249 21.5057 3.27561 20.0055C2.53874 18.5053 2.12096 16.9125 2.02229 15.2271C1.92361 13.5418 2.15262 11.9092 2.70933 10.3292C3.26604 8.74932 4.05852 7.37069 5.08678 6.19334C6.11504 5.01599 7.36839 4.05225 8.84685 3.30212C10.3253 2.55198 11.8945 2.1258 13.5543 2.02356C15.2142 1.92132 16.8218 2.15183 18.3771 2.7151C19.9324 3.27837 21.2892 4.08134 22.4474 5.12402C23.6055 6.16669 24.5531 7.43815 25.2901 8.93838C26.027 10.4386 26.4448 12.0314 26.5434 13.7168C26.606 14.7861 26.5356 15.8403 26.3321 16.8793C26.1287 17.9184 25.8096 18.8946 25.3747 19.8079C24.9399 20.7212 24.4066 21.5706 23.7747 22.3561ZM14.84 23.9912C16.1107 23.9129 17.3094 23.5854 18.436 23.0085C19.5626 22.4317 20.519 21.6933 21.305 20.7934C22.091 19.8934 22.6986 18.8412 23.1279 17.6365C23.5572 16.4319 23.7341 15.1845 23.6586 13.8944C23.5831 12.6042 23.262 11.3875 22.6953 10.2442C22.1286 9.10096 21.4026 8.13081 20.5173 7.33378C19.632 6.53674 18.5964 5.92105 17.4106 5.48669C16.2247 5.05232 14.9965 4.87428 13.7258 4.95255C12.4551 5.03081 11.2565 5.35835 10.1298 5.93514C9.00317 6.51194 8.04682 7.25035 7.26078 8.15038C6.47473 9.0504 5.86709 10.1027 5.43783 11.3072C5.00858 12.5117 4.83171 13.7591 4.90721 15.0494C4.98272 16.3396 5.3038 17.5563 5.87045 18.6995C6.4371 19.8427 7.16312 20.8128 8.04853 21.6099C8.93394 22.407 9.96951 23.0227 11.1552 23.457C12.341 23.8913 13.5692 24.0694 14.84 23.9912Z"
+                        fill="white" />
+                </svg>
+                <input class="hidden lg:block lg:w-[260px] xl:w-[440px] lg:text-white lg:text-[15px]" type="text"
+                    name="" id="" placeholder="What do you want to play?">
+
+            </figure>
+        </div>
+        <!-- end of left side of the header/////////////////////////////////////////////////////////////////////// -->
+
+
+
+        <!-- start the right side of header//////////////////////////////////////////////// -->
+
+        <div class="w-1/2 md:w-2/3 lg:w-1/2  flex justify-end items-center *:flex *:justify-center *:items-center">
+
+            <!-- start of the bar that will be hidden///////////////////////////////////////////////////////////////////////// -->
+            <div class="hidden md:flex  *:hidden md:*:flex *:hover:text-white *:hover:cursor-pointer *:hover:scale-105">
+                <span class="md:!m-1 md:text-gray-400 md:font-bold">Premium</span>
+                <span class="md:!m-1 md:text-gray-400 md:font-bold">Support</span>
+                <span class="md:!m-1 md:text-gray-400 md:font-bold">Download</span>
+                <svg class="" width="6" height="32" viewBox="0 0 6 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 29L3 3" stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
+
+            </div>
+            <!-- end of the hidden bar ////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+            <!-- the install app part////////////////////////////////////////////////////////////////////////////////////////////////// -->
+            <span
+                class="w-1/2 md:w-32 h-full flex justify-center items-center hover:scale-105 hover:text-white hover:cursor-pointer ">
+                <svg class=" text-gray-400 " width="20" height="20" viewBox="0 0 52 52" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_131_2883)">
+                        <circle cx="26" cy="26" r="17.75" stroke="white" stroke-width="2.5" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M34.839 28.9289L26.884 36.8839C26.3959 37.372 25.6044 37.372 25.1162 36.8839L17.1613 28.9289C16.6731 28.4408 16.6731 27.6493 17.1613 27.1612C17.6494 26.673 18.4409 26.673 18.9291 27.1612L24.7501 32.9822L24.7501 17C24.7501 16.3096 25.3098 15.75 26.0001 15.75C26.6905 15.75 27.2501 16.3096 27.2501 17L27.2501 32.9822L33.0712 27.1612C33.5594 26.673 34.3508 26.673 34.839 27.1612C35.3271 27.6493 35.3271 28.4408 34.839 28.9289Z"
+                            fill="white" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_131_2883">
+                            <rect width="52" height="52" fill="text-gray-400" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                <div
+                    class="w-[90px] h-[20px] text-[10px] md:text-[15px] text-gray-400 font-bold flex justify-center items-center hover:scale-105 hover:text-white hover:cursor-pointer ">
+                    Install App</div>
+            </span>
+            <!-- the install app part//////////////////////////////////////////////////////// -->
+
+            <!-- the sign up part///////////////////////////////////////////////////////////////////////////////// -->
+            <span class="w-[121px] h-full *:flex *:items-center *:justify-center">
+                <div
+                    class="text-[10px] md:text-[15px] w-full h-full  text-gray-400 font-bold hover:scale-105  hover:text-white hover:cursor-pointer ">
+                    Sign up</div>
+            </span>
+
+            <!-- the sign up part///////////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- the login part///////////////////////////////////////////////////////////////////////////////// -->
+            <span
+                class="w-[110px] h-[50px] bg-white rounded-4xl flex justify-center items-center *:flex *:items-center *:justify-center">
+                <div
+                    class="w-full h-full text-[10px] md:text-[15px] text-black font-bold hover:scale-105 hover:cursor-pointer  ">
+                    Log in</div>
+            </span>
+            <!-- the login part///////////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- hamburger menu ////////////////////////////////////////////////////////////////////////////////// -->
+            <span class="w-[50px] h-full flex justify-center items-center">
+                <div onclick="_HamMenu()"
+                    class="HamMenu w-10 h-10 flex justify-center items-center md:hidden cursor-pointer">
+                    <svg width="20" height="38" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M49 35L3 35" stroke="white" stroke-width="5" stroke-linecap="round" />
+                        <path d="M49 19L3 19" stroke="white" stroke-width="5" stroke-linecap="round" />
+                        <path d="M49 3L3 3" stroke="white" stroke-width="5" stroke-linecap="round" />
+                    </svg>
+                </div>
+            </span>
+            <!-- hamburger menu ////////////////////////////////////////////////////////////////////////////////// -->
+        </div>
+        <!-- end the right side of header//////////////////////////////////////////////// -->
+    </header>
+
+
+
+
+    <!--////////////////////////////////////////////////// side bar//////////////////////////////////////////////////////// -->
+    <section class="w-full flex flex-wrap">
+        <!-- left part of side bar///////////////////////////////////////////////////////// -->
+        <div
+            class="hidden  md:block md:w-[420px] h-[800px] rounded-xl *:!mx-auto *:!my-5 bg-[#121212] *:flex *:items-center ">
+            <span class="w-full h-1/12 *:flex *:items-center *:!mx-4">
+                <div class="w-1/2 h-full justify-start text-white font-bold">Your Library</div>
+                <div class="text-3xl w-1/2 h-full justify-end text-gray-400">+</div>
+            </span>
+
+            <!-- part two of sidebar///////////////////////////////////////////////////////// -->
+
+            <span class="w-11/12 h-1/4 bg-[#1f1f1f] rounded-xl  flex flex-wrap justify-start items-center *:!mx-3 ">
+                <div class="*:h-1/2 *:w-full  flex flex-wrap *:text-white h-1/2 *:!my-1 *:text-[12px] *:md:text-[14px]">
+                    <div class="font-bold">Let's find some podcasts to follow</div>
+                    <div class="">We'll keep you updated on new episodes</div>
+                </div>
+                <div
+                    class="rounded-4xl h-[32px] w-[126px] flex justify-center items-center bg-white text-[12px] font-bold">
+                    Browse podcasts</div>
+            </span>
+            <!-- pert three of side bar/////////////////////////////////////////////////////////////////// -->
+            <span class="w-11/12 h-1/4 bg-[#1f1f1f] rounded-xl  flex flex-wrap justify-start items-center *:!mx-3">
+                <div class="*:h-1/2 *:w-full  flex flex-wrap *:text-white h-1/2  *:text-[12px] *:md:text-[14px]">
+                    <div class="font-bold">Creat your first playlist</div>
+                    <div>It's easy,we'll help you</div>
+                </div>
+                <div class="rounded-4xl h-[32px] w-[126px] flex justify-center items-center bg-white text-sm font-bold">
+                    Creat playlist</div>
+            </span>
+            <!-- part four of sidebar /////////////////////////////// -->
+            <footer class="px-6 py-4 bg-[#121212] text-gray-400 text-[10px] *:!mx-5">
+                <div class="flex flex-col gap-4">
+
+                    <div class="flex flex-wrap gap-x-6 gap-y-2">
+                        <a href="" class="hover:underline">Legal</a>
+                        <a href="" class="hover:underline">Safety & Privacy Center</a>
+                        <a href="" class="hover:underline">Privacy Policy</a>
+                        <a href="" class="hover:underline">Cookies</a>
+                        <br>
+                        <a href="" class="hover:underline">About Ads</a>
+                        <a href="" class="hover:underline">Accessibility</a>
+                    </div>
+
+
+                    <div class="!my-7">
+                        <button
+                            class="flex w-[100px] h-[32px] items-center justify-center font-bold text-white gap-2 border  border-gray-400 px-3 py-1 rounded-full hover:border-white hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 3v18m9-9H3" />
+                            </svg>
+                            English
+                        </button>
+                    </div>
+                </div>
+            </footer>
+
+
+
+        </div>
+        <!-- right part of side bar///////////////////////////////////////////////////////// -->
+        <div
+            class=" w-full md:w-[calc(100%-440px)] h-[800px] bg-[#212121] rounded-xl flex flex-wrap !mx-auto overflow-hidden relative ">
+            <div class="w-full  h-[700px] bg-[#212121] rounded-xl flex flex-wrap !mx-auto overflow-hidden">
+                <div class="h-1/8 w-full *:w-1/2 *:h-full !mx-5 !mt-5 !-mb-15 flex flex-wrap">
+                    <span class="text-white md:text-xl lg:text-2xl font-bold text-sm  ">Trending songs</span>
+                    <span class="text-gray-400 text-sm font-bold hover:underline flex justify-end">Show all</span>
+                </div>
+                <!-- music part///////////////////////////////////////////////////////////////// -->
+                <span id="right-icon" class="absolute right-5  top-[20%] z-10 "><svg width="35" height="35"
+                        viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle opacity="0.5" cx="20" cy="20" r="20" fill="black" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M27.0702 19.302C27.4745 19.7064 27.458 20.3669 27.034 20.7506L16.3391 30.4269C15.8272 30.8901 15.0367 30.8506 14.5735 30.3386C14.1103 29.8267 14.1499 29.0362 14.6618 28.5731L24.1874 19.9547L14.6166 10.3839C14.1284 9.89573 14.1284 9.10427 14.6166 8.61612C15.1047 8.12796 15.8962 8.12796 16.3843 8.61612L27.0702 19.302Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <div id="musicpart" class="w-full h-2/5 !mb-5 flex flex-wrap items-center relative box">
+                </div>
+                <span id="left-icon" class="absolute left-5 top-[20%] z-10">
+                    <svg width="35" height="35" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle opacity="0.5" cx="20" cy="20" r="20" fill="black" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M12.5426 19.302C12.1382 19.7064 12.1547 20.3669 12.5788 20.7506L23.2737 30.4269C23.7856 30.8901 24.5761 30.8506 25.0392 30.3386C25.5024 29.8267 25.4629 29.0362 24.951 28.5731L15.4254 19.9547L24.9962 10.3839C25.4843 9.89573 25.4843 9.10427 24.9962 8.61612C24.508 8.12796 23.7166 8.12796 23.2284 8.61612L12.5426 19.302Z"
+                            fill="white" />
+                    </svg>
+
+                </span>
+
+
+                <div class="h-1/8 w-full *:w-1/2 *:h-full !mx-5 !mt-5 !-mb-15 flex flex-wrap">
+                    <span class="text-white  md:text-xl lg:text-2xl font-bold text-sm  ">Popular artists</span>
+                    <span class="text-gray-400 text-sm font-bold hover:underline flex justify-end">Show all</span>
+                </div>
+                <!-- artist part//////////////////////////////////////////////////////////////// -->
+
+                <span id="artist-right" class="absolute right-5 top-[65%] z-10">
+                    <svg width="35" height="35" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle opacity="0.5" cx="20" cy="20" r="20" fill="black" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M27.0702 19.302C27.4745 19.7064 27.458 20.3669 27.034 20.7506L16.3391 30.4269C15.8272 30.8901 15.0367 30.8506 14.5735 30.3386C14.1103 29.8267 14.1499 29.0362 14.6618 28.5731L24.1874 19.9547L14.6166 10.3839C14.1284 9.89573 14.1284 9.10427 14.6166 8.61612C15.1047 8.12796 15.8962 8.12796 16.3843 8.61612L27.0702 19.302Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <div id="artistpart" class="w-full h-2/5 !mb-5 flex flex-wrap items-center relative box2"></div>
+
+
+                <span id="artist-left" class="absolute left-5 top-[65%] z-10">
+                    <svg width="35" height="35" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle opacity="0.5" cx="20" cy="20" r="20" fill="black" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M12.5426 19.302C12.1382 19.7064 12.1547 20.3669 12.5788 20.7506L23.2737 30.4269C23.7856 30.8901 24.5761 30.8506 25.0392 30.3386C25.5024 29.8267 25.4629 29.0362 24.951 28.5731L15.4254 19.9547L24.9962 10.3839C25.4843 9.89573 25.4843 9.10427 24.9962 8.61612C24.508 8.12796 23.7166 8.12796 23.2284 8.61612L12.5426 19.302Z"
+                            fill="white" />
+                    </svg>
+
+                </span>
+
+
+            </div>
+
+
+
+
+        </div>
+        <section class="fixed bottom-0 left-0 w-full bg-black h-20 flex items-center px-4">
+            <!-- Left empty space -->
+            <div class="hidden md:block w-1/3"></div>
+
+            <!-- Center controls -->
+            <div class="w-full md:w-1/2 flex flex-col justify-center items-center">
+                <!-- Icons row -->
+                <div class="flex items-center justify-center gap-6 !mb-1">
+                    <div onclick="shuffle()">
+                        <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M21.4708 7.31952C21.0448 7.74555 21.0448 8.43627 21.4708 8.8623L22.1566 9.54813H19.8151C18.3733 9.54813 17.0016 10.215 16.0522 11.3776L7.94266 21.3076C7.37299 22.0052 6.55001 22.4053 5.68493 22.4053H5V24.5481H5.68493C7.12674 24.5481 8.49837 23.8813 9.44781 22.7187L17.5573 12.7887C18.127 12.0911 18.95 11.691 19.8151 11.691H22.4991L21.4708 12.7192C21.0448 13.1453 21.0448 13.836 21.4708 14.262C21.8968 14.688 22.5876 14.688 23.0136 14.262L26.1313 11.1443C26.3265 10.9491 26.3265 10.6325 26.1313 10.4372L23.0136 7.31952C22.5876 6.89349 21.8968 6.89349 21.4708 7.31952ZM6.36879 8.54813C7.76049 8.54813 9.08446 9.19407 10.0009 10.3202L12.4531 13.1728L11 14.5481L8.54806 11.687C7.9982 11.0113 7.20381 10.6238 6.36879 10.6238H5.00043V8.54813H6.36879ZM16.3284 20.7761C17.2449 21.9022 18.5688 22.5481 19.9605 22.5481H22.6419L21.4708 23.7192C21.0448 24.1453 21.0448 24.836 21.4708 25.262C21.8968 25.688 22.5876 25.688 23.0136 25.262L26.1313 22.1443C26.3265 21.9491 26.3265 21.6325 26.1313 21.4372L23.0136 18.3195C22.5876 17.8935 21.8968 17.8935 21.4708 18.3195C21.0448 18.7455 21.0448 19.4363 21.4708 19.8623L22.081 20.4725H19.9605C19.1255 20.4725 18.3311 20.0849 17.7813 19.4093L16 17.0481L14.5 18.5481L16.3284 20.7761Z"
+                                fill="#BABABA" />
+                        </svg>
+                    </div>
+                    <div onclick="previousmusic()" style="cursor: pointer;">
+                        <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.8" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M8 7C7.44772 7 7 7.44772 7 8V24C7 24.5523 7.44772 25 8 25H10C10.5523 25 11 24.5523 11 24V18.1512L23.5 24.8738C24.1667 25.2323 25 24.7842 25 24.0671V7.9329C25 7.21582 24.1667 6.76765 23.5 7.12619L11 13.8488V8C11 7.44772 10.5523 7 10 7H8Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div class="_icon" style="cursor: pointer;">
+                        <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M44 24C44 35.0457 35.0457 44 24 44C12.9543 44 4 35.0457 4 24C4 12.9543 12.9543 4 24 4C35.0457 4 44 12.9543 44 24ZM17 16C17 15.4477 17.4477 15 18 15H21C21.5523 15 22 15.4477 22 16V32C22 32.5523 21.5523 33 21 33H18C17.4477 33 17 32.5523 17 32V16ZM27 15C26.4477 15 26 15.4477 26 16V32C26 32.5523 26.4477 33 27 33H30C30.5523 33 31 32.5523 31 32V16C31 15.4477 30.5523 15 30 15H27Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div onclick="nextmusic()" style="cursor: pointer;">
+                        <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.8" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M24 7C24.5523 7 25 7.44772 25 8V24C25 24.5523 24.5523 25 24 25H22C21.4477 25 21 24.5523 21 24V18.1512L8.5 24.8738C7.83333 25.2323 7 24.7842 7 24.0671V7.9329C7 7.21582 7.83333 6.76765 8.5 7.12619L21 13.8488V8C21 7.44772 21.4477 7 22 7H24Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div>
+                        <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M22 8H10C8.89543 8 8 8.89543 8 10V18C8 19.1046 8.89543 20 10 20H12V22H10C7.79086 22 6 20.2091 6 18V10C6 7.79086 7.79086 6 10 6H22C24.2091 6 26 7.79086 26 10V18C26 20.2091 24.2091 22 22 22H18.843L20.0141 23.1711C20.4401 23.5971 20.4401 24.2879 20.0141 24.7139C19.588 25.1399 18.8973 25.1399 18.4713 24.7139L15.3536 21.5962C15.1583 21.4009 15.1583 21.0843 15.3536 20.8891L18.4713 17.7714C18.8973 17.3454 19.588 17.3454 20.0141 17.7714C20.4401 18.1974 20.4401 18.8881 20.0141 19.3142L19.3282 20H22C23.1046 20 24 19.1046 24 18V10C24 8.89543 23.1046 8 22 8Z"
+                                fill="#BABABA" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Range slider -->
+                <div class="w-4/5 flex items-center gap-2 !mb-1.5">
+                    <span id="timeofmusic" class="text-white"></span>
+                    <input id="input" class="w-full h-1 slider" type="range" value="0" step="0.0001">
+                    <span class="text-white"></span>
+                </div>
+            </div>
+
+            <!-- Right part -->
+            <div class="hidden md:flex w-1/3 xl:w-1/4 justify-end gap-5 xl:gap-0">
+                <span class="hidden md:flex w-1/6 gap-2 items-center">
+                    <div>
+                        <svg width="15" height="16" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M15 2H3C2.44772 2 2 2.44772 2 3V4C2 4.55228 2.44772 5 3 5H15C15.5523 5 16 4.55228 16 4V3C16 2.44772 15.5523 2 15 2ZM3 0C1.34315 0 0 1.34315 0 3V4C0 5.65685 1.34315 7 3 7H15C16.6569 7 18 5.65685 18 4V3C18 1.34315 16.6569 0 15 0H3ZM0 10H18V12.5H0V10ZM18 16H0V18.5H18V16Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div>
+                        <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M8.2 9C7.53726 9 7 9.53892 7 10.2037V16.8398C7 17.5 7.5 18 8.2 18H11V20H8C5.74668 20 5 18.1677 5 15.9074V10.6111C5 8.61675 6.21177 7 8.2 7H11V9H8.2ZM24 9H16C15.4477 9 15 9.44772 15 10V23C15 23.5523 15.4477 24 16 24H24C24.5523 24 25 23.5523 25 23V10C25 9.44772 24.5523 9 24 9ZM16 7C14.3431 7 13 8.34315 13 10V23C13 24.6569 14.3431 26 16 26H24C25.6569 26 27 24.6569 27 23V10C27 8.34315 25.6569 7 24 7H16ZM20 22C21.6569 22 23 20.6569 23 19C23 17.3431 21.6569 16 20 16C18.3431 16 17 17.3431 17 19C17 20.6569 18.3431 22 20 22ZM21 13C21 13.5523 20.5523 14 20 14C19.4477 14 19 13.5523 19 13C19 12.4477 19.4477 12 20 12C20.5523 12 21 12.4477 21 13ZM11 23H8V25H11V23Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                </span>
+                <span class="w-3/6 flex items-center">
+                    <div id="mute">
+                        <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M16.1385 9.74993L9.47894 13.6673C7.50702 14.8273 7.50702 17.679 9.47894 18.8389L16.1385 22.7563V9.74993ZM8.4649 11.9434C5.17837 13.8767 5.17837 18.6295 8.4649 20.5628L16.6314 25.3666C17.2981 25.7588 18.1385 25.2781 18.1385 24.5047V8.00152C18.1385 7.2281 17.2981 6.74745 16.6314 7.13958L8.4649 11.9434ZM19.1387 9.25317C20.1236 9.25317 21.0989 9.44717 22.0088 9.82408C22.9187 10.201 23.7455 10.7534 24.442 11.4499C25.1384 12.1463 25.6909 12.9731 26.0678 13.883C26.4447 14.793 26.6387 15.7683 26.6387 16.7532C26.6387 17.7381 26.4447 18.7134 26.0678 19.6233C25.6909 20.5332 25.1384 21.36 24.442 22.0565C23.7455 22.7529 22.9187 23.3054 22.0088 23.6823C21.0989 24.0592 20.1236 24.2532 19.1387 24.2532V22.2443C19.8598 22.2443 20.5738 22.1022 21.24 21.8263C21.9062 21.5503 22.5116 21.1459 23.0215 20.636C23.5314 20.1261 23.9358 19.5207 24.2118 18.8545C24.4877 18.1883 24.6298 17.4743 24.6298 16.7532C24.6298 16.0321 24.4877 15.318 24.2118 14.6518C23.9358 13.9856 23.5314 13.3803 23.0215 12.8704C22.5116 12.3605 21.9062 11.956 21.24 11.6801C20.5738 11.4041 19.8598 11.2621 19.1387 11.2621V9.25317ZM21.3311 14.5363C20.7997 13.8955 20.053 13.4431 19.213 13.2532L19.1387 20.2532C19.9826 20.079 20.7387 19.6408 21.2836 19.0101C21.8285 18.3795 22.1299 17.5936 22.1385 16.781C22.1471 15.9684 21.8625 15.177 21.3311 14.5363Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div class="flex items-center">
+                        <input class="slider2" type="range" name="" id="">
+                    </div>
+                </span>
+                <span class="hidden w-1/8 md:flex items-center">
+                    <div>
+                        <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M24.5 7H23.9058H23.8979H20.0909C19.4884 7 19 7.48842 19 8.09091C19 8.6934 19.4884 9.18182 20.0909 9.18182H21.2652L18.3216 12.1253C17.8928 12.5542 17.8928 13.2495 18.3216 13.6784C18.7505 14.1072 19.4458 14.1072 19.8746 13.6784L22.8182 10.7348V11.9091C22.8182 12.5116 23.3066 13 23.9091 13C24.5116 13 25 12.5116 25 11.9091V8.0982V8.09807V7.5C25 7.22386 24.7761 7 24.5 7ZM7.5 25H8.09417H8.10212H11.9091C12.5116 25 13 24.5116 13 23.9091C13 23.3066 12.5116 22.8182 11.9091 22.8182H10.7348L13.6784 19.8746C14.1072 19.4458 14.1072 18.7505 13.6784 18.3216C13.2495 17.8928 12.5542 17.8928 12.1254 18.3216L9.18182 21.2652V20.0909C9.18182 19.4884 8.6934 19 8.09091 19C7.48842 19 7 19.4884 7 20.0909V23.9018V23.9019V24.5C7 24.7761 7.22386 25 7.5 25Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                </span>
+            </div>
+        </section>
+   
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    const _Hammenu = document.getElementsByClassName('HamMenu')[0];
+    let flag = 1;
+
+    function _HamMenu() {
+        _Hammenu.style.cursor = "pointer";
+
+        if (flag % 2 === 1) {
+
+            const NewDiv = document.createElement('div');
+            NewDiv.classList.add('NewDiv');
+            NewDiv.innerHTML = `
+            <span class="w-full rounded-[8px] h-[40px] flex items-center text-white !px-3 hover:bg-gray-500 hover:underline ">Premium</span>
+            <span class="w-full rounded-[8px] h-[40px] flex items-center text-white !px-3 hover:bg-gray-500 hover:underline ">Support</span>
+            <span class="w-full rounded-[8px] h-[40px] flex items-center text-white !px-3 hover:bg-gray-500 hover:underline ">Download</span>
+        `;
+            _Hammenu.parentElement.appendChild(NewDiv);
+
+
+            _Hammenu.innerHTML = `
+            <svg width="20" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 3L35.5269 35.5269" stroke="white" stroke-width="5" stroke-linecap="round"/>
+                <path d="M35.5269 3L3.00001 35.5269" stroke="white" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+        `;
+        } else {
+            const existing = document.querySelector('.NewDiv');
+            if (existing) existing.remove();
+
+            _Hammenu.innerHTML = `
+            <svg width="20" height="38" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M49 35L3 35" stroke="white" stroke-width="5" stroke-linecap="round" />
+                <path d="M49 19L3 19" stroke="white" stroke-width="5" stroke-linecap="round" />
+                <path d="M49 3L3 3" stroke="white" stroke-width="5" stroke-linecap="round" />
+            </svg>
+        `;
+        }
+
+        flag++;
+    }
+    /////////////////////////music player////////////////////////////////////
+    const _musicpart = document.getElementById('musicpart')
+
+
+    const data = [
+        { img: 'img/aliazimi.jpg', title: 'ALI AZIMI', songname: 'Azin Shakhe', audio: 'musics/Ali Azimi - Azin Shakhe be oon Shakhe.mp3' },
+        {
+            img: 'img/roozaye-bigharari.jpg', title: 'Alireza Ghorbani', songname: 'Roozhaye Bi Gharari', audio: 'musics/Alireza Ghorbani - Roozhaye Bi Gharar.mp3'
+        },
+        { img: 'img/burn.jpg', title: 'David Kushner', songname: 'Burn', audio: 'musics/1_1 - Burn - David Kushner (320).mp3' },
+        { img: 'img/chavoshi.jpg', title: 'Chavoshi', songname: 'Oxygen', audio: 'musics/unknown-artist-betaz-geleye-oxizhen-(music-irani.com).mp3' },
+        { img: 'img/damino.png', title: 'Damiano David', songname: 'The First Time', audio: 'musics/1_11 - The First Time - Damiano David (320).mp3' },
+        { img: 'img/devil.jpg', title: 'Soap & skin', songname: 'Me and The Devil', audio: 'musics/Soap and Skin – Me and The Devil.mp3' },
+        { img: 'img/hallowed.jpg', title: 'SOEN', songname: 'Hollowed', audio: 'musics/1_5 - Hollowed (Elisa) - Soen (320).mp3' },
+        { img: 'img/holdme.jpg', title: 'Lewis Capaldi', songname: 'Hold me', audio: 'musics/Lewis-Capaldi-Hold-Me-While-You-Wait-320.mp3' },
+        { img: 'img/lana.jpeg', title: 'Lana Del Rey', songname: 'Salvatore', audio: 'musics/10. Salvatore (2).mp3' },
+        { img: 'img/lost.jpg', title: 'Maroon 5', songname: 'Lost', audio: 'musics/Maroon-5-Lost-320.mp3' },
+        { img: 'img/mardtanha.jpg', title: 'Farhad', songname: 'Marde Tanha', audio: 'musics/Farhad Mehrad - Marde Tanha (320).mp3' },
+        { img: 'img/mordab.png', title: 'Gogoosh', songname: 'Mordab', audio: 'musics/Googoosh-Mordab-128.mp3' },
+        { img: 'img/samsmith.jpg', title: 'Sam smith', songname: 'LAY ME DOWN', audio: 'musics/Sam-Smith-Lay-Me-Down-320.mp3' },
+        { img: 'img/shit.jpeg', title: 'Måneskin', songname: 'Sh*t Blvd', audio: 'musics/1_4 - Sht Blvd - Måneskin (320).mp3' },
+        { img: 'img/stay.jpg', title: 'Rihanna', songname: 'Stay', audio: 'musics/Rihanna-Stay-(Ft-Mikky-Ekko)-128.mp3' },
+        { img: 'img/tasian.jpg', title: 'Alireza Ghorbani', songname: 'Tasian', audio: 'musics/Alireza Ghorbani - Tasian.mp3' },
+        { img: 'img/torna.jpg', title: 'Måneskin', songname: 'Torna a casa', audio: 'musics/1_2 - Torna a casa - Måneskin (320).mp3' },
+        { img: 'img/yellow.jpg', title: 'Yellow Days', songname: 'Gap in the Clouds', audio: 'musics/Yellow-Days-Gap-in-the-Clouds-320.mp3' },
+        { img: 'img/honeywiskey.jpg', title: 'Nothing but Thieves', songname: 'Honey Wiskey', audio: 'musics/13 Nothing but Thieves - Honey Whiskey.mp3' },
+        { img: 'img/ashegh.jpg', title: 'Siavash Ghomeshi', songname: 'Ashegh', audio: 'musics/Siavash-Ghomayshi-Ashegh.mp3' },
+
+
+    ]
+    data.map((val) => {
+        let Fig = document.createElement('figure')
+        Fig.classList.add('musics-style')
+
+
+        Fig.innerHTML = `
+        <img class="" src="${val.img}" alt="">
+         <div class="play-btn">
+                <svg width="70" height="70" viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g filter="url(#filter0_d_178_5546)">
+                        <circle cx="52" cy="48" r="36" fill="#65D36E"/>
+                        <path d="M65.2866 48.5123C66.1519 48.0266 66.1519 46.8122 65.2866 46.3264L45.8179 35.3968C44.9526 34.911 43.871 35.5182 43.871 36.4898V58.349C43.871 59.3205 44.9526 59.9277 45.8179 59.442L65.2866 48.5123Z" fill="black"/>
+                    </g>
+                    <defs>
+                        <filter id="filter0_d_178_5546" x="0" y="0" width="104" height="104" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="4"/>
+                            <feGaussianBlur stdDeviation="8"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_178_5546"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_178_5546" result="shape"/>
+                        </filter>
+                    </defs>
+                </svg>
+            </div>
+        <figcaption>
+            <div class="">${val.title}</div>
+            <div class="">${val.songname}</div>
+           <audio src="${val.audio}"></audio>
+        </figcaption>
+        
+        `
+        _musicpart.appendChild(Fig)
+
+    })
+
+    //////////////////////////////////////////artist part////////////////////////////////////////////////////
+
+    const _artistpart = document.getElementById('artistpart')
+
+    const data2 = [
+        { img: 'img/azimi.jpg', name: 'ALI AZIMI', title: 'Artist' },
+        { img: 'img/alireza.jpg', name: 'Alireza Ghorbani', title: 'Artist' },
+        { img: 'img/farhad.jpg', name: 'Farhad', title: 'Artist' },
+        { img: 'img/sam.jpg', name: 'Sam Smith', title: 'Artist' },
+        { img: 'img/domino.jpg', name: 'Damiano', title: 'Artist' },
+        { img: 'img/goog.jpg', name: 'Gogoosh', title: 'Artist' },
+        { img: 'img/seon.jpg', name: 'Seon', title: 'Artist' },
+        { img: 'img/soap.jpg', name: 'Soap&Skin', title: 'Artist' },
+        { img: 'img/rih.jpg', name: 'Rihanna', title: 'Artist' },
+        { img: 'img/maneskin.jpg', name: 'Maneskin', title: 'Artist' },
+
+
+
+    ]
+    data2.map((val) => {
+        let Figure = document.createElement('figure')
+        Figure.classList.add('artists-style')
+
+        Figure.innerHTML = `
+        <img class="" src="${val.img}" alt="">
+        <figcaption>
+            <div class="">${val.name}</div>
+            <div class="">${val.title}</div>
+        </figcaption>
+        
+        `
+        _artistpart.appendChild(Figure)
+
+    })
+
+
+    ////////////////////////////////scroll music//////////////////////
+    const box = document.querySelector('.box');
+    const _iconright = document.getElementById('right-icon');
+    const _iconleft = document.getElementById('left-icon');
+
+    let left = 0;
+
+    const visibleWidth = document.getElementById('musicpart').offsetWidth;
+
+
+    const contentWidth = box.scrollWidth;
+
+
+    const maxLeft = contentWidth - visibleWidth;
+
+
+    const itemWidth = box.querySelector('.musics-style').offsetWidth + 20;
+    _iconright.addEventListener('click', () => {
+        if (left < maxLeft) {
+            left += itemWidth;
+            if (left > maxLeft) left = maxLeft;
+            box.style.left = -left + 'px';
+        }
+    });
+
+    _iconleft.addEventListener('click', () => {
+        if (left > 0) {
+            left -= itemWidth;
+            if (left < 0) left = 0;
+            box.style.left = -left + 'px';
+        }
+    });
+
+
+
+    //////////////////////////////music process//////////////////////
+
+
+
+
+    const timeofmusic = document.querySelector('#timeofmusic')
+    const musics = document.querySelectorAll('audio')
+    const figures = document.querySelectorAll('.musics-style')
+    const _icon = document.querySelector('._icon')
+    const input = document.querySelector('#input')
+    let currentPlay = null
+
+    const playIcon = `<svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="24" cy="24" r="20" fill="white"/>
+  <path d="M18 15L30 24L18 33V15Z" fill="#191414"/>
+</svg>
+
+`;
+    const pauseIcon = `<svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M44 24C44 35.0457 35.0457 44 24 44C12.9543 44 4 35.0457 4 24C4 12.9543 12.9543 4 24 4C35.0457 4 44 12.9543 44 24ZM17 16C17 15.4477 17.4477 15 18 15H21C21.5523 15 22 15.4477 22 16V32C22 32.5523 21.5523 33 21 33H18C17.4477 33 17 32.5523 17 32V16ZM27 15C26.4477 15 26 15.4477 26 16V32C26 32.5523 26.4477 33 27 33H30C30.5523 33 31 32.5523 31 32V16C31 15.4477 30.5523 15 30 15H27Z"
+                                fill="white" />
+                        </svg>
+`;
+
+
+
+
+
+
+    function _musictime() {
+        musics.forEach((music) => {
+            music.addEventListener('timeupdate', () => {
+                const timemusic = music.currentTime;
+                const min = Math.floor(timemusic / 60);
+                const second = Math.floor(timemusic % 60);
+                timeofmusic.innerHTML = min + ':' + (second < 10 ? '0' + second : second);
+                input.value = (timemusic * 100) / music.duration
+            });
+            input.addEventListener('input', () => {
+                music.currentTime = (input.value * music.duration) / 100;
+
+            })
+            music.addEventListener('loadedmetadata', () => {
+                input.max = 100
+            })
+        });
+    }
+
+    _musictime();
+
+
+
+
+
+
+
+
+
+
+
+    figures.forEach((figure, i) => {
+        figure.addEventListener('click', () => {
+            const music = musics[i];
+            if (currentPlay && currentPlay !== music) {
+                currentPlay.pause()
+                _icon.innerHTML = playIcon
+                music.currentTime = 0
+
+            }
+            if (music.paused) {
+                music.play()
+                _icon.innerHTML = pauseIcon
+                currentPlay = music
+                if (currentPlay && currentPlay !== music) {
+                    currentPlay.currentTime = 0;
+                }
+
+
+
+
+
+            } else {
+                music.pause()
+                _icon.innerHTML = playIcon
+
+
+
+
+            }
+
+        })
+    })
+
+
+
+
+
+    _icon.addEventListener('click', () => {
+        if (currentPlay && currentPlay.paused) {
+            _icon.innerHTML = pauseIcon
+            currentPlay.play()
+
+        } else {
+            _icon.innerHTML = playIcon
+            currentPlay.pause()
+        }
+
+    })
+
+
+    const mute = document.getElementById('mute');
+    const input2 = document.querySelector('.slider2');
+
+    let previousVolume = currentPlay ? currentPlay.volume : 0.5;
+
+    // Mute / Unmute
+    mute.addEventListener('click', () => {
+        if (!currentPlay) return;
+
+        if (currentPlay.muted) {
+            currentPlay.muted = false;
+            currentPlay.volume = previousVolume;
+            input2.value = currentPlay.volume * 100;
+        } else {
+            previousVolume = currentPlay.volume;
+            currentPlay.muted = true;
+            input2.value = 0;
+        }
+    });
+
+    input2.addEventListener('input', () => {
+        if (!currentPlay) return;
+
+        let newVolume = input2.value / 100;
+        currentPlay.volume = newVolume;
+
+        currentPlay.muted = newVolume === 0;
+        if (newVolume > 0) previousVolume = newVolume;
+    });
+
+
+    // بخش آرتیستا
+    const artistBox = document.querySelector('.box2');
+    const artistRight = document.getElementById('artist-right');
+    const artistLeft = document.getElementById('artist-left');
+
+    let artistLeftPos = 0;
+
+    const artistVisibleWidth = document.getElementById('artistpart').offsetWidth;
+    const artistContentWidth = artistBox.scrollWidth;
+
+    const artistMaxLeft = artistContentWidth - artistVisibleWidth;
+
+    const artistItemWidth = artistBox.querySelector('.artists-style').offsetWidth + 20;
+
+    artistRight.addEventListener('click', () => {
+        if (artistLeftPos < artistMaxLeft) {
+            artistLeftPos += artistItemWidth;
+            if (artistLeftPos > artistMaxLeft) artistLeftPos = artistMaxLeft;
+            artistBox.style.left = -artistLeftPos + 'px';
+        }
+    });
+
+    artistLeft.addEventListener('click', () => {
+        if (artistLeftPos > 0) {
+            artistLeftPos -= artistItemWidth;
+            if (artistLeftPos < 0) artistLeftPos = 0;
+            artistBox.style.left = -artistLeftPos + 'px';
+        }
+    });
+
+    //////////////////////////////////////////
+
+    function nextmusic() {
+        if (!currentPlay) {
+            currentPlay = musics[0];
+        } else {
+
+            let index = Array.from(musics).indexOf(currentPlay);
+            if (index !== -1 && index < musics.length - 1) {
+                currentPlay.pause();
+                currentPlay.currentTime = 0;
+                currentPlay = musics[index + 1];
+            } else {
+                currentPlay.pause()
+                currentPlay.currentTime = 0
+                currentPlay = musics[0]
+            }
+        }
+
+        currentPlay.play();
+        _icon.innerHTML = pauseIcon
+
+    }
+    function previousmusic() {
+        if (!currentPlay) {
+            currentPlay = musics[0];
+        } else {
+            let index = Array.from(musics).indexOf(currentPlay);
+            if (index > 0) {
+                currentPlay.pause();
+                currentPlay.currentTime = 0;
+                currentPlay = musics[index - 1];
+            } else {
+                currentPlay.pause()
+                currentPlay.currentTime = 0
+                let last = musics.length - 1
+                currentPlay = musics[last]
+            }
+        }
+
+        currentPlay.play();
+        _icon.innerHTML = pauseIcon
+    }
+
+
+    function shuffle() {
+
+
+        let musics = Array.from(musics)
+        let math = Math.floor(Math.random * array.length)
+        
+        if (currentPlay) {
+            currentPlay = musics[math]
+            currentPlay.play()
+
+        }_icon.innerHTML = pauseIcon;
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+</html>
